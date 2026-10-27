@@ -1,0 +1,13 @@
+Lista,Card,Macro-funzione,Livello,Story Points,Sprint,Descrizione
+Done,T1.1 Schema DB organizzazione,MF1 Organizzazione campionato e accesso,DB,2,Sprint 1,"Tabelle utente, societa, campionato, squadra, partita con relazioni 1:N, FK e vincoli unique"
+Done,T1.2 Autenticazione JWT e RBAC,MF1 Organizzazione campionato e accesso,BE,3,Sprint 1,"Login BCrypt, emissione/verifica JWT, filtro Spring Security, @PreAuthorize per ruolo, risposte 401/403 JSON"
+Done,T1.3 Calendario Berger e designazioni,MF1 Organizzazione campionato e accesso,BE,3,Sprint 1,"Generatore round-robin andata/ritorno; vincoli designazione (societa, provincia, impegno nello stesso giorno)"
+Done,T1.4 Login guard e area giudice,MF1 Organizzazione campionato e accesso,FE,2,Sprint 1,"Login, AuthInterceptor, roleGuard, pagine Campionati e Designazioni"
+Done,T2.1 Schema DB rosa e lista gara,MF2 Gestione squadra e lista gara,DB,2,Sprint 2,"Tabelle tesserato, lista_gara e tabella ponte N:M lista_gara_atleta"
+Done,T2.2 Tesseramenti e iscrizioni,MF2 Gestione squadra e lista gara,BE,2,Sprint 2,"CRUD tesserati con controllo di proprieta della societa; iscrizione ai campionati con iscrizioni aperte"
+Done,T2.3 Validatore lista gara,MF2 Gestione squadra e lista gara,BE,2,Sprint 2,"6-14 atleti, max 2 liberi, 2 liberi obbligatori oltre 12; transizione PROGRAMMATA -> ROSTER_INVIATI"
+Done,T2.4 Rosa e composizione lista gara,MF2 Gestione squadra e lista gara,FE,2,Sprint 2,"Tabella rosa con dialog Reactive Form; selezione convocate con contatori e validazione live"
+Done,T3.1 Persistenza referto transazionale,MF3 Referto omologazione e classifica,DB,3,Sprint 2,"set_partita, statistica_giocatore; salvataggio @Transactional con rollback; query aggregate stagionali"
+Done,T3.2 Validatore referto e macchina a stati,MF3 Referto omologazione e classifica,BE,3,Sprint 3,"Regole set 25/15 con 2 punti di scarto, fine partita a 3 set; State Pattern; Factory; firma SHA-256"
+Done,T3.3 Classifica FIPAV,MF3 Referto omologazione e classifica,BE,3,Sprint 3,"Punti 3/2/1/0, quoziente set e punti con confronto esatto, Strategy per i criteri di ordinamento"
+Done,T3.4 Referto digitale e classifiche UI,MF3 Referto omologazione e classifica,FE,3,Sprint 3,"FormArray dinamico set per set, statistiche e sanzioni, omologazione, classifica, area giocatore"

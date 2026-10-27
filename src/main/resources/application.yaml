@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: webapp
+  datasource:
+    url: jdbc:mysql://localhost:3306/webapp
+    username: webappuser
+    password: webapppassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  jackson:
+    time-zone: Europe/Rome
+
+app:
+  jwt:
+    # Chiave HMAC-SHA256 (min. 32 byte). In produzione va sovrascritta con la variabile APP_JWT_SECRET.
+    secret: ${APP_JWT_SECRET:volley-league-chiave-segreta-di-sviluppo-unife-2026}
+    expiration-minutes: 480
+  seed:
+    # Popola il DB con dati dimostrativi al primo avvio (solo se la tabella utente e' vuota)
+    enabled: true
