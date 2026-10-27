@@ -1,12 +1,12 @@
 Volley League - Piattaforma integrata per la gestione di campionati di pallavolo
 Ingegneria del Software 2025/2026 - Universita' di Ferrara - Progetto individuale (30 SP)
 
-Repository backend (Spring Boot):  <INSERIRE LINK GITHUB PUBBLICO BACKEND>
-Repository frontend (Angular):     <INSERIRE LINK GITHUB PUBBLICO FRONTEND>
+Repository backend (Spring Boot):  https://github.com/niccologardellini/volley-league-frontend.git
+Repository frontend (Angular):     https://github.com/niccologardellini/volley-league-frontend.git
 
 Trello (board del progetto):        <INSERIRE LINK BOARD TRELLO>
 Miro (disegno funzionale):          <INSERIRE LINK BOARD MIRO>
-Figma (prototipo UI, facoltativo):  <INSERIRE LINK FIGMA oppure "non realizzato">
+Figma (prototipo UI, facoltativo):  non realizzato
 
 Demo video:                         relazione_esame/demo.mp4
 
