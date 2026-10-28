@@ -12,4 +12,4 @@ Account demo (password `password`): admin@volley.it, dirigente@4torri.it, arbitr
 
 ## Materiale d'esame
 
-Tutto in `relazione_esame/`: relazione PDF, video demo, Dockerfile, `LINKS.txt` e dump del database `webapp_dump.sql`.
+Tutto in `relazione_esame/`: relazione PDF, video demo, `LINKS.txt` e dump del database `webapp_dump.sql`.

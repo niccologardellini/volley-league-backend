@@ -16,19 +16,5 @@ services:
       interval: 5s
       retries: 20
 
-  # Backend containerizzato (facoltativo): docker compose --profile full up -d
-  backend:
-    profiles: ["full"]
-    build:
-      context: .
-      dockerfile: relazione_esame/Dockerfile
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/webapp
-    ports:
-      - "8080:8080"
-    depends_on:
-      db:
-        condition: service_healthy
-
 volumes:
   db_data:

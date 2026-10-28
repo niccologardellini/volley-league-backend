@@ -46,7 +46,7 @@ tasks.named('test') {
 	}
 }
 
-// Solo il jar eseguibile di Spring Boot (evita il "-plain.jar" nell'immagine Docker)
+// Solo il jar eseguibile di Spring Boot (evita il "-plain.jar")
 tasks.named('jar') {
 	enabled = false
 }

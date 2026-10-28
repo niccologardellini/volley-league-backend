@@ -1,7 +1,5 @@
 """Genera le immagini usate nella relazione (python3 diagrammi.py)."""
-import csv
 import os
-import textwrap
 
 import matplotlib
 
@@ -49,90 +47,6 @@ def salva(fig, nome):
     fig.savefig(os.path.join(IMG, nome), facecolor=fig.get_facecolor())
     plt.close(fig)
     print("creato", nome)
-
-
-# ---------------------------------------------------------------- Miro: disegno funzionale
-def miro():
-    fig, ax = tela(13, 6.2)
-    fig.set_facecolor("#f4f4f2")
-    for i in range(0, 60):
-        for j in range(0, 30):
-            ax.plot(i / 60, j / 30, ".", color="#dcdcd6", ms=1.2)
-    box(ax, 0.39, 0.86, 0.22, 0.1, "VOLLEY LEAGUE\nGestione campionati di pallavolo", NAVY, colore="white", size=11, bold=True)
-
-    attori = [("Giudice sportivo", "#ffd6d6"), ("Dirigente", "#d6e6ff"), ("Arbitro", "#ffe9c2"), ("Giocatore", "#d9f2df")]
-    ax.text(0.015, 0.94, "Attori", fontsize=10, fontweight="bold", color=GRIGIO)
-    for k, (a, c) in enumerate(attori):
-        box(ax, 0.015, 0.84 - k * 0.075, 0.11, 0.06, a, c, ec="#b9b9b0", size=8.5)
-
-    colonne = [
-        ("MF1 · Organizzazione campionato e accesso", "10 SP", [
-            ("Login e profilo (JWT)", "#ffffff"), ("Guard per ruolo (RBAC)", "#ffffff"),
-            ("Crea campionato / girone", "#ffd6d6"), ("Genera calendario (Berger)", "#ffd6d6"),
-            ("Designa arbitro con vincoli", "#ffd6d6")]),
-        ("MF2 · Gestione squadra e lista gara", "8 SP", [
-            ("Squadre della società", "#d6e6ff"), ("Tesseramento atleti (rosa)", "#d6e6ff"),
-            ("Iscrizione al campionato", "#d6e6ff"), ("Compila lista gara (≤14 + staff)", "#d6e6ff"),
-            ("PROGRAMMATA → ROSTER_INVIATI", "#ffffff")]),
-        ("MF3 · Referto, omologazione e classifica", "12 SP", [
-            ("Avvio gara (arbitro)", "#ffe9c2"), ("Referto set per set + statistiche", "#ffe9c2"),
-            ("Firma digitale e invio", "#ffe9c2"), ("Omologa / respingi referto", "#ffd6d6"),
-            ("Classifica FIPAV + area giocatore", "#d9f2df")]),
-    ]
-    for c, (titolo, sp, note) in enumerate(colonne):
-        x = 0.16 + c * 0.28
-        box(ax, x, 0.71, 0.25, 0.08, textwrap.fill(titolo, 30), BLU, colore="white", size=9, bold=True)
-        box(ax, x + 0.19, 0.775, 0.05, 0.03, sp, ARANCIO, colore=NAVY, size=8, bold=True, r=0.01)
-        freccia(ax, (0.5, 0.86), (x + 0.125, 0.79), colore="#9aa0ad", rad=0.0)
-        for k, (n, colore) in enumerate(note):
-            yy = 0.58 - k * 0.11
-            ax.add_patch(FancyBboxPatch((x + 0.012, yy - 0.006), 0.226, 0.085, boxstyle="square,pad=0", fc="#00000012", ec="none"))
-            box(ax, x + 0.005, yy, 0.226, 0.085, n, colore, ec="#c9c9c0", size=8.5, r=0.004)
-        ax.text(x + 0.125, 0.035, ["FE · BE · DB", "FE · BE · DB", "FE · BE · DB"][c], ha="center", fontsize=8, color=GRIGIO)
-    salva(fig, "miro_disegno_funzionale.png")
-
-
-# ---------------------------------------------------------------- Trello
-def trello():
-    with open(os.path.join(QUI, "..", "trello_backlog.csv"), encoding="utf-8") as f:
-        righe = list(csv.DictReader(f))
-    fig, ax = tela(13, 6.2)
-    fig.set_facecolor("#0c66e4")
-    ax.text(0.015, 0.955, "Volley League · Ingegneria del Software", fontsize=13, color="white", fontweight="bold")
-    ax.text(0.015, 0.915, "Board di progetto · 30 SP · 3 sprint", fontsize=9, color="#dfe9ff")
-    liste = ["Sprint 1", "Sprint 2", "Sprint 3"]
-    etichette = {"FE": "#4bce97", "BE": "#9f8fef", "DB": "#f5cd47"}
-    colonne = [("Backlog", []), ("Sprint 1 · Done", [r for r in righe if r["Sprint"] == "Sprint 1"]),
-               ("Sprint 2 · Done", [r for r in righe if r["Sprint"] == "Sprint 2"]),
-               ("Sprint 3 · Done", [r for r in righe if r["Sprint"] == "Sprint 3"]),
-               ("Test & Documentazione", None)]
-    w = 0.185
-    for c, (nome, cards) in enumerate(colonne):
-        x = 0.012 + c * (w + 0.012)
-        altezza = 0.84
-        ax.add_patch(FancyBboxPatch((x, 0.03), w, altezza, boxstyle="round,pad=0,rounding_size=0.012", fc="#f1f2f4", ec="none"))
-        ax.text(x + 0.01, 0.845, nome, fontsize=9.5, fontweight="bold", color="#172b4d")
-        if cards is None:
-            cards = [{"Card": "94 test JUnit/Mockito verdi", "Livello": "BE", "Story Points": "-"},
-                     {"Card": "Relazione 10 slide (PDF)", "Livello": "DOC", "Story Points": "-"},
-                     {"Card": "Dump DB + Dockerfile", "Livello": "DB", "Story Points": "-"},
-                     {"Card": "Demo video journey utente", "Livello": "DOC", "Story Points": "-"}]
-        if not cards:
-            cards = [{"Card": "Notifiche email (fuori perimetro)", "Livello": "IDEA", "Story Points": "-"},
-                     {"Card": "Playoff / fasi finali (fuori perimetro)", "Livello": "IDEA", "Story Points": "-"}]
-        for k, r in enumerate(cards):
-            y = 0.675 - k * 0.16
-            ax.add_patch(FancyBboxPatch((x + 0.008, y), w - 0.016, 0.14, boxstyle="round,pad=0,rounding_size=0.008",
-                                        fc="white", ec="#dcdfe4"))
-            liv = r["Livello"]
-            ax.add_patch(FancyBboxPatch((x + 0.016, y + 0.105), 0.035, 0.022, boxstyle="round,pad=0,rounding_size=0.004",
-                                        fc=etichette.get(liv, "#8590a2"), ec="none"))
-            ax.text(x + 0.0335, y + 0.116, liv, fontsize=6.5, ha="center", va="center", color="#172b4d", fontweight="bold")
-            ax.text(x + 0.016, y + 0.06, textwrap.fill(r["Card"], 32), fontsize=7.8, color="#172b4d", va="center", wrap=True)
-            if r["Story Points"] != "-":
-                ax.text(x + w - 0.02, y + 0.018, f'{r["Story Points"]} SP', fontsize=7.5, ha="right", color="#44546f", fontweight="bold")
-                ax.text(x + 0.016, y + 0.018, "✓ test", fontsize=7, color="#1f845a")
-    salva(fig, "trello_board.png")
 
 
 # ---------------------------------------------------------------- Architettura
@@ -213,32 +127,6 @@ def schema_er():
     salva(fig, "schema_er.png")
 
 
-# ---------------------------------------------------------------- Burndown
-def burndown():
-    fig = plt.figure(figsize=(6.2, 3.4), dpi=200)
-    ax = fig.add_subplot(111)
-    giorni = list(range(0, 16))
-    ideale = [30 - 30 * g / 15 for g in giorni]
-    # S1 = 10 SP (giorni 1-5), S2 = 11 SP (6-10), S3 = 9 SP (11-15)
-    reale = [30, 30, 28, 25, 23, 20, 20, 17, 15, 12, 9, 9, 7, 5, 2, 0]
-    ax.plot(giorni, ideale, "--", color="#9aa0ad", label="Ideale")
-    ax.plot(giorni, reale, "-o", color=BLU, ms=3.5, lw=2, label="Reale")
-    for x, t in [(5, "Review S1"), (10, "Review S2"), (15, "Review S3")]:
-        ax.axvline(x, color=ARANCIO, lw=1, alpha=.6)
-        ax.text(x - 0.2, 29, t, rotation=90, va="top", ha="right", fontsize=7, color="#a35a00")
-    ax.set_xlabel("Giorni lavorativi")
-    ax.set_ylabel("Story point residui")
-    ax.set_ylim(0, 31)
-    ax.grid(alpha=.25)
-    ax.legend(frameon=False, fontsize=8)
-    for s in ("top", "right"):
-        ax.spines[s].set_visible(False)
-    fig.tight_layout()
-    fig.savefig(os.path.join(IMG, "burndown.png"))
-    plt.close(fig)
-    print("creato burndown.png")
-
-
 # ---------------------------------------------------------------- Macchina a stati
 def stati():
     fig, ax = tela(8.4, 1.9)
@@ -259,9 +147,6 @@ def stati():
 
 
 if __name__ == "__main__":
-    miro()
-    trello()
     architettura()
     schema_er()
-    burndown()
     stati()

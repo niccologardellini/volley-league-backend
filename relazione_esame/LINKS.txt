@@ -1,13 +1,11 @@
 Volley League - Piattaforma integrata per la gestione di campionati di pallavolo
 Ingegneria del Software 2025/2026 - Universita' di Ferrara - Progetto individuale (30 SP)
 
-Repository backend (Spring Boot):  https://github.com/niccologardellini/volley-league-frontend.git
-Repository frontend (Angular):     https://github.com/niccologardellini/volley-league-frontend.git
+Repository backend (Spring Boot):  <INSERIRE LINK GITHUB PUBBLICO BACKEND>
+Repository frontend (Angular):     <INSERIRE LINK GITHUB PUBBLICO FRONTEND>
 
-Trello (board del progetto):        
-https://trello.com/invite/b/6ae0aa70ae1f5188cd71fc06/ATTI02bbe20717f974bea51e011f318d9291FC3AC4E6/volley-league
-Miro (disegno funzionale): 
-https://miro.com/app/board/uXjVEUGhGFs=/?share_link_id=521625085659
+Trello (board del progetto):        https://trello.com/b/6vciU88a/volley-league
+Miro (disegno funzionale):          https://miro.com/app/board/uXjVEUGhGFs=/
 Figma (prototipo UI, facoltativo):  non realizzato
 
 Demo video:                         relazione_esame/demo.mp4
@@ -16,8 +14,6 @@ Contenuto di questa cartella:
 - Relazione_VolleyLeague.pdf   relazione di 10 slide (sorgente: Relazione_VolleyLeague.pptx)
 - demo.mp4                     video demo del percorso completo nei 4 ruoli (circa 3 minuti)
 - webapp_dump.sql              dump MySQL dello schema "webapp" (struttura + dati dimostrativi)
-- Dockerfile                   immagine del backend (usata da docker-compose.yaml del backend)
-- trello_backlog.csv           backlog con task FE/BE/DB e story points (importabile in Trello)
 - sorgenti/                    script e immagini usati per generare relazione e video
 
 Ripristino del database dal dump:

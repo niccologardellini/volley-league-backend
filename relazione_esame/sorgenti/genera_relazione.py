@@ -19,8 +19,8 @@ OUT = os.path.abspath(os.path.join(QUI, ".."))
 NOME = "Relazione_VolleyLeague"
 
 # Da personalizzare prima della consegna
-STUDENTE = "Nome Cognome"
-MATRICOLA = "Matricola 000000"
+STUDENTE = "Niccolò Gardellini"
+MATRICOLA = "Matricola 209464"
 CORSO = "Ingegneria del Software · UniFE · A.A. 2025/26"
 
 NAVY = RGBColor(0x12, 0x1C, 0x46)
@@ -183,13 +183,13 @@ immagine(s, img("03_classifica.png"), 7.85, 4.35, w=4.4)
 
 # ============================================================ 2 · Team e ruoli
 s = nuova(2, "Distribuzione del team e dei ruoli",
-          "Progetto svolto in autonomia: tutti i ruoli Scrum ricoperti dallo stesso studente, con contratto da 30 SP")
-ruoli = [("Product Owner", "Definisce visione, backlog e criteri di accettazione delle 3 macro-funzionalità"),
-         ("Scrum Master", "Pianifica 3 sprint, conduce le cerimonie e aggiorna burndown e board Trello"),
-         ("Sviluppatore DB", "Modello E-R, 10 tabelle MySQL, vincoli UNIQUE/FK, dump dello schema"),
-         ("Sviluppatore BE", "API REST Spring Boot, sicurezza JWT/RBAC, pattern State/Strategy/Factory"),
-         ("Sviluppatore FE", "SPA Angular Material responsive, guard per ruolo, validazione dei form"),
-         ("Tester", "94 test JUnit 5 / Mockito / MockMvc, prove end-to-end sui 4 ruoli")]
+          "Progetto individuale: tutte le attività sono state svolte dallo stesso studente")
+ruoli = [("Analisi", "Requisiti, ruoli utente e regole di gioco; disegno funzionale su Miro"),
+         ("Pianificazione", "Scomposizione delle 3 macro-funzionalità in task FE/BE/DB su Trello e stima in SP"),
+         ("Sviluppo DB", "Modello E-R, 10 tabelle MySQL, vincoli UNIQUE/FK, dump dello schema"),
+         ("Sviluppo backend", "API REST Spring Boot, sicurezza JWT, pattern State/Strategy/Factory"),
+         ("Sviluppo frontend", "Interfaccia Angular Material responsive, accesso per ruolo, validazione dei form"),
+         ("Test e documentazione", "Test JUnit / Mockito / MockMvc, prove nel browser, relazione e video")]
 for k, (r, d) in enumerate(ruoli):
     x = 0.45 + (k % 2) * 3.1
     y = 1.35 + (k // 2) * 1.75
@@ -206,60 +206,55 @@ tabella(s, 6.85, 1.8, 6.0, [
     ["Totale", "7", "16", "7", "30"],
 ], [3.6, 0.6, 0.6, 0.6, 0.6], size=12, h_riga=0.42)
 testo(s, 6.85, 4.05, 6.0, 2.9, [
-    ("Stima con sequenza di Fibonacci (1, 2, 3, 5, 8…)", {"bold": True, "colore": BLU, "spazio": 3}),
-    ("Pivot: una CRUD completa = 2 SP. Task con logica di dominio non banale (validazione referto, "
-     "calendario Berger, sicurezza JWT) stimati 3 SP.", {"size": 12, "spazio": 10}),
-    ("Nessuna dipendenza esterna", {"bold": True, "colore": BLU, "spazio": 3}),
-    ("Lavorando da solo, la Definition of Done di ogni card include codice commentato, test verdi e "
-     "verifica manuale nel browser su desktop e mobile.", {"size": 12}),
+    ("Stima degli story point", {"bold": True, "colore": BLU, "spazio": 3}),
+    ("Scala di Fibonacci con riferimento CRUD = 2 SP: 2 SP per le operazioni CRUD, 3 SP per i task "
+     "con logica più complessa (validazione referto, calendario, sicurezza JWT).", {"size": 12}),
 ], size=13)
 
 # ============================================================ 3 · Cerimonie
-s = nuova(3, "Evidenze delle cerimonie Scrum",
-          "3 sprint da 5 giorni lavorativi · cerimonie svolte e annotate anche in forma individuale")
-cer = [("Sprint planning", "Ad ogni inizio sprint: scelta delle card dal backlog Trello, stima in SP, "
-                           "obiettivo di sprint scritto nella descrizione della lista."),
-       ("Daily (log)", "Nota giornaliera di 3 righe su Trello: fatto ieri · farò oggi · impedimenti "
-                      "(es. vincolo provincia arbitri, rollback referto)."),
-       ("Sprint review", "Demo del flusso completato nel browser: S1 calendario + designazioni, "
-                         "S2 rosa + lista gara, S3 referto → omologa → classifica."),
-       ("Retrospettiva", "Start/Stop/Continue: es. 'scrivere prima i test del validatore set' (S2), "
-                         "'tenere il seed demo allineato' (S3).")]
+s = nuova(3, "Evidenze delle cerimonie",
+          "Cerimonie svolte in forma individuale, scandite dal completamento delle 3 macro-funzionalità")
+cer = [("Planning", "All'avvio: scomposizione delle macro-funzionalità da Miro in task su Trello, "
+                    "stima in SP e ordine di lavoro MF1 → MF2 → MF3."),
+       ("Punto quotidiano", "Breve verifica giornaliera: cosa è stato fatto, cosa resta, eventuali "
+                            "blocchi (es. vincolo provincia arbitri, rollback referto)."),
+       ("Review", "Al termine di ogni macro-funzionalità: prova completa del flusso nel browser con gli "
+                  "account dei ruoli coinvolti."),
+       ("Retrospettiva", "A fine progetto: cosa ha funzionato, difficoltà e cosa migliorare "
+                         "(riportato nella slide Feedback).")]
 for k, (t, d) in enumerate(cer):
-    y = 1.3 + k * 1.38
-    rett(s, 0.45, y, 5.6, 1.25, CHIARO, MSO_SHAPE.ROUNDED_RECTANGLE)
-    testo(s, 0.65, y + 0.1, 5.3, 0.4, t, size=15, colore=NAVY, bold=True)
-    testo(s, 0.65, y + 0.48, 5.3, 0.8, d, size=11)
-immagine(s, img("burndown.png"), 6.35, 1.3, w=6.55, cornice=False)
-didascalia(s, 6.35, 4.95, 6.55, "Burndown dei 30 SP: le soste dopo ogni review coincidono con retro e planning")
-tabella(s, 6.35, 5.35, 6.55, [
-    ["Sprint", "Obiettivo", "SP"],
-    ["S1", "MF1 completa: accesso, campionati, calendario, designazioni", "10"],
-    ["S2", "MF2 completa + persistenza referto (T3.1)", "11"],
-    ["S3", "Validazione referto, omologa, classifica, UI arbitro", "9"],
-], [0.7, 5.15, 0.7], size=11, h_riga=0.36)
+    x = 0.45 + (k % 2) * 6.25
+    y = 1.3 + (k // 2) * 1.55
+    rett(s, x, y, 6.1, 1.4, CHIARO, MSO_SHAPE.ROUNDED_RECTANGLE)
+    rett(s, x, y, 0.09, 1.4, ARANCIO)
+    testo(s, x + 0.25, y + 0.12, 5.7, 0.4, t, size=15, colore=NAVY, bold=True)
+    testo(s, x + 0.25, y + 0.55, 5.7, 0.8, d, size=12)
+testo(s, 0.45, 4.5, 12.4, 0.4, "Review al completamento di ogni macro-funzionalità", size=14, colore=NAVY, bold=True)
+tabella(s, 0.45, 4.95, 12.4, [
+    ["Macro-funzionalità", "Flusso verificato nella review", "SP"],
+    ["MF1 · Organizzazione campionato e accesso", "Login per ruolo, creazione campionato, calendario, designazione arbitri", "10"],
+    ["MF2 · Gestione squadra e lista gara", "Rosa, iscrizione, lista gara con controllo dei liberi", "8"],
+    ["MF3 · Referto, omologazione e classifica", "Referto con firma, omologa, classifica e area giocatore", "12"],
+], [4.2, 7.4, 0.8], size=12, h_riga=0.42)
 
 # ============================================================ 4 · Miro
 s = nuova(4, "Disegno funzionale (Miro)",
           "Mappa delle 3 macro-funzionalità: ogni nota è una user story, il colore indica l'attore principale")
-immagine(s, img("miro_disegno_funzionale.png"), 0.69, 1.25, w=11.95)
+immagine(s, img("miro_board.png"), 0.45, 1.25, w=12.4)
+didascalia(s, 0.45, 6.55, 12.4, "Board Miro: miro.com/app/board/uXjVEUGhGFs= · attori a sinistra, "
+                                "le 3 macro-funzionalità con i rispettivi SP e le attività di ciascuna")
 
 # ============================================================ 5 · Trello
 s = nuova(5, "Board Trello", "12 card di sviluppo con etichetta di livello (FE/BE/DB) e story point · totale 30 SP")
-immagine(s, img("trello_board.png"), 0.45, 1.25, w=9.6)
-for k, (v, e) in enumerate([("12", "card di sviluppo"), ("30 SP", "stimati e completati"), ("3", "sprint da 5 giorni"),
-                            ("100%", "card in Done")]):
-    x = 0.45 + k * 2.43
-    rett(s, x, 5.95, 2.3, 0.95, CHIARO, MSO_SHAPE.ROUNDED_RECTANGLE)
-    testo(s, x + 0.15, 6.0, 0.95, 0.85, v, size=22, colore=BLU, bold=True, anchor=MSO_ANCHOR.MIDDLE)
-    testo(s, x + 1.1, 6.0, 1.15, 0.85, e, size=11, colore=TESTO, anchor=MSO_ANCHOR.MIDDLE)
-punti(s, 10.25, 1.25, 2.7, 5.7, [
-    ("Liste", "Backlog → Sprint 1/2/3 → Test & Documentazione"),
-    ("Etichette", "FE (verde) · BE (viola) · DB (giallo) per verificare la copertura su tutti i livelli"),
-    ("Story point", "Campo SP su ogni card; somma per macro-funzionalità 10 + 8 + 12"),
-    ("Definition of Done", "Checklist 'test verdi' e 'verifica UI' spuntata prima di spostare in Done"),
-    ("Import", "trello_backlog.csv in relazione_esame/ contiene l'intero backlog"),
-], size=12)
+immagine(s, img("trello_board_reale.png"), 0.45, 1.2, w=12.4)
+for k, (v, e) in enumerate([("12", "card di sviluppo"), ("30 SP", "10 + 8 + 12 per macro-funzione"),
+                            ("3", "macro-funzionalità"), ("3", "etichette: FE · BE · DB")]):
+    x = 0.45 + k * 3.13
+    rett(s, x, 5.75, 2.98, 0.85, CHIARO, MSO_SHAPE.ROUNDED_RECTANGLE)
+    testo(s, x + 0.15, 5.78, 1.05, 0.8, v, size=22, colore=BLU, bold=True, anchor=MSO_ANCHOR.MIDDLE)
+    testo(s, x + 1.2, 5.78, 1.7, 0.8, e, size=11, colore=TESTO, anchor=MSO_ANCHOR.MIDDLE)
+didascalia(s, 0.45, 6.68, 12.4, "Board pubblica: trello.com/b/6vciU88a/volley-league · story point indicati nel "
+                                "titolo di ogni card")
 
 # ============================================================ 6 · Test cases
 s = nuova(6, "Test cases", "94 test automatici, 0 fallimenti · ./gradlew test (H2 in modalità MySQL, nessun DB esterno richiesto)")
@@ -358,12 +353,12 @@ testo(s, 0.6, 6.29, 6.8, 0.65, [
 # ============================================================ 10 · Feedback
 s = nuova(10, "Feedback", "Retrospettiva finale del progetto")
 blocchi = [
-    ("Cosa ha funzionato", VERDE, ["Stima in SP con pivot CRUD = 2 abbastanza precisa (scarto < 10%)",
+    ("Cosa ha funzionato", VERDE, ["Il riferimento CRUD = 2 SP ha reso semplice dividere e stimare il lavoro",
                                    "Scrivere i test del validatore prima dell'UI ha evitato regressioni",
                                    "Il seed demo ha reso rapide review e verifica manuale"]),
     ("Difficoltà", RGBColor(0xB3, 0x26, 0x1E), ["Vincoli di designazione (provincia, stesso giorno) più complessi del previsto",
                                                  "Rollback con più entità: necessario flush esplicito e test di integrazione",
-                                                 "Ricoprire tutti i ruoli Scrum da soli richiede disciplina nel log"]),
+                                                 "Gestire da solo analisi, sviluppo e test richiede organizzazione"]),
     ("Cosa ho imparato", BLU, ["Spring Security stateless con JWT e @PreAuthorize",
                                "Signals e componenti standalone in Angular 19",
                                "Applicare State, Strategy e Factory a regole di dominio reali"]),
