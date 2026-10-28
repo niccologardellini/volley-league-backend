@@ -1,26 +1,25 @@
 Volley League - Piattaforma integrata per la gestione di campionati di pallavolo
-Ingegneria del Software 2025/2026 - Universita' di Ferrara - Progetto individuale (30 SP)
+Ingegneria del Software 2025/2026 - Universita' di Ferrara
+Niccolo' Gardellini - Matricola 209464
 
-Repository backend (Spring Boot):  <INSERIRE LINK GITHUB PUBBLICO BACKEND>
-Repository frontend (Angular):     <INSERIRE LINK GITHUB PUBBLICO FRONTEND>
+Repository backend:   https://github.com/niccologardellini/volley-league-backend
+Repository frontend:  https://github.com/niccologardellini/volley-league-frontend
 
-Trello (board del progetto):        https://trello.com/b/6vciU88a/volley-league
-Miro (disegno funzionale):          https://miro.com/app/board/uXjVEUGhGFs=/
-Figma (prototipo UI, facoltativo):  non realizzato
+Trello:  https://trello.com/b/6vciU88a/volley-league
+Miro:    https://miro.com/app/board/uXjVEUGhGFs=/
+Figma:   non realizzato
 
-Demo video:                         relazione_esame/demo.mp4
-
-Contenuto di questa cartella:
-- Relazione_VolleyLeague.pdf   relazione di 10 slide (sorgente: Relazione_VolleyLeague.pptx)
-- demo.mp4                     video demo del percorso completo nei 4 ruoli (circa 3 minuti)
-- webapp_dump.sql              dump MySQL dello schema "webapp" (struttura + dati dimostrativi)
-- sorgenti/                    script e immagini usati per generare relazione e video
+Contenuto della cartella relazione_esame:
+- Relazione_VolleyLeague.pdf   relazione di 10 slide
+- demo.mp4                     video demo
+- webapp_dump.sql              dump del database "webapp"
+- LINKS.txt                    questo file
 
 Ripristino del database dal dump:
   mysql -h 127.0.0.1 -u webappuser -pwebapppassword < webapp_dump.sql
 
 Account dimostrativi (password: password):
   admin@volley.it       Giudice sportivo
-  dirigente@4torri.it   Dirigente - 4 Torri Ferrara (Serie D Maschile)
-  arbitro@fipav.it      Arbitro - Luca Rossi
-  giocatore@4torri.it   Giocatore - Simone Neri #7
+  dirigente@4torri.it   Dirigente - 4 Torri Ferrara
+  arbitro@fipav.it      Arbitro
+  giocatore@4torri.it   Giocatore

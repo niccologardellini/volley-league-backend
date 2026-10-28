@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+/** Accesso alla tabella campionato. */
 public interface CampionatoRepository extends JpaRepository<Campionato, Long> {
 
     List<Campionato> findByStatoOrderByNome(StatoCampionato stato);

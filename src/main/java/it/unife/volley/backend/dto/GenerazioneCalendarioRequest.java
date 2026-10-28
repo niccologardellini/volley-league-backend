@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/** Parametri per generare il calendario: data della prima giornata, orario, giorni tra due giornate e ritorno. */
 public record GenerazioneCalendarioRequest(
         @NotNull LocalDate dataInizio,
         @NotNull LocalTime ora,

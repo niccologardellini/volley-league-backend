@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
+/** Accesso alla tabella tesserato; i controlli sul numero di maglia evitano duplicati nella stessa squadra. */
 public interface TesseratoRepository extends JpaRepository<Tesserato, Long> {
 
     List<Tesserato> findBySquadraIdOrderByNumeroMaglia(Long idSquadra);

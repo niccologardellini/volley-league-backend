@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
+/** Accesso alla tabella utente; la ricerca per email ignora maiuscole e minuscole. */
 public interface UtenteRepository extends JpaRepository<Utente, Long> {
 
     Optional<Utente> findByEmailIgnoreCase(String email);

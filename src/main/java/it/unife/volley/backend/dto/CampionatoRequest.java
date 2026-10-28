@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+/** Dati per creare un campionato; la stagione deve avere il formato AAAA/AAAA. */
 public record CampionatoRequest(
         @NotBlank @Size(max = 100) String nome,
         @NotBlank @Size(max = 60) String categoria,
