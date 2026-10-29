@@ -28,13 +28,10 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok:1.18.36'
 	annotationProcessor 'org.projectlombok:lombok:1.18.36'
-	testCompileOnly 'org.projectlombok:lombok:1.18.36'
-	testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'com.h2database:h2'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
@@ -44,9 +41,4 @@ tasks.named('test') {
 	testLogging {
 		events 'passed', 'failed', 'skipped'
 	}
-}
-
-// Solo il jar eseguibile di Spring Boot (evita il "-plain.jar")
-tasks.named('jar') {
-	enabled = false
 }
