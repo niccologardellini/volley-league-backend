@@ -1,10 +1,7 @@
 build/
 .gradle/
-uploads/
 *.log
 .idea/
 *.iml
 .vscode/
 .DS_Store
-relazione_esame/sorgenti/demo/node_modules/
-relazione_esame/sorgenti/demo/demo.webm
