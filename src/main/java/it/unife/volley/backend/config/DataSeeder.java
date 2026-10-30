@@ -52,6 +52,11 @@ public class DataSeeder implements CommandLineRunner {
     private final RefertoFactory refertoFactory;
 
     private final Random random = new Random(2026);
+    /** Generatore separato per i nomi, cosi' i risultati delle partite non dipendono dagli elenchi di nomi. */
+    private final Random randomNomi = new Random(7);
+    private final Deque<String> cognomiLiberi = new ArrayDeque<>();
+    private final Map<Long, Deque<String>> nomiLiberiPerSquadra = new HashMap<>();
+    private final Map<Long, String[]> staffPerSquadra = new HashMap<>();
     private String passwordHash;
 
     @Override
@@ -62,8 +67,9 @@ public class DataSeeder implements CommandLineRunner {
         }
         log.info("Database vuoto: caricamento dati dimostrativi");
         passwordHash = passwordEncoder.encode(PASSWORD);
+        preparaCognomi();
 
-        utente("admin@volley.it", "Giulia", "Ferri", Ruolo.ADMIN, null, "BO");
+        utente("admin@volley.it", "Giuseppe", "Manfredi", Ruolo.ADMIN, null, "BO");
 
         Campionato serieD = campionatoRepository.save(Campionato.builder()
                 .nome("Serie D Maschile").categoria("Serie D Maschile").stagione("2026/2027")
@@ -88,20 +94,19 @@ public class DataSeeder implements CommandLineRunner {
         List<Tesserato> rosaQuattroTorri = rose.get(quattroTorri.getId());
         rosaQuattroTorri.add(tesserato(quattroTorri, RuoloCampo.LIBERO, 15));
         rosaQuattroTorri.add(tesserato(quattroTorri, RuoloCampo.SCHIACCIATORE, 16));
-        Tesserato neri = rosaQuattroTorri.stream().filter(t -> t.getNumeroMaglia() == 7).findFirst().orElseThrow();
-        neri.setNome("Simone");
-        neri.setCognome("Neri");
-        neri.setUtente(utente("giocatore@4torri.it", neri.getNome(), neri.getCognome(), Ruolo.GIOCATORE, null, "FE"));
+        Tesserato gardellini = rosaQuattroTorri.stream().filter(t -> t.getNumeroMaglia() == 7).findFirst().orElseThrow();
+        gardellini.setNome("Niccolò");
+        gardellini.setCognome("Gardellini");
+        gardellini.setUtente(utente("giocatore@4torri.it", gardellini.getNome(), gardellini.getCognome(),
+                Ruolo.GIOCATORE, null, "FE"));
 
         // Arbitri con affiliazioni/province diverse per mostrare i vincoli di designazione
-        Utente rossi = utente("arbitro@fipav.it", "Luca", "Rossi", Ruolo.ARBITRO, null, "RE");
-        utente("arbitro.lodi@fipav.it", "Chiara", "Lodi", Ruolo.ARBITRO, null, "PC");
-        utente("arbitro.verdi@fipav.it", "Matteo", "Verdi", Ruolo.ARBITRO, null, "FC");
-        utente("arbitro.mazza@fipav.it", "Federica", "Mazza", Ruolo.ARBITRO, null, "FE");
-        utente("arbitro.serra@fipav.it", "Stefano", "Serra", Ruolo.ARBITRO, squadreC.get(0).getSocieta(), "MO");
-        utente("arbitro.bassi@fipav.it", "Elisa", "Bassi", Ruolo.ARBITRO, null, "PR");
-        utente("arbitro.gori@fipav.it", "Andrea", "Gori", Ruolo.ARBITRO, null, "RN");
-        utente("arbitro.fabbri@fipav.it", "Sara", "Fabbri", Ruolo.ARBITRO, null, "BO");
+        List<Utente> creati = new ArrayList<>();
+        for (String[] a : ARBITRI) {
+            Societa affiliazione = a[3].equals("MO") ? squadreC.get(0).getSocieta() : null;
+            creati.add(utente(a[0], a[1], a[2], Ruolo.ARBITRO, affiliazione, a[4]));
+        }
+        Utente rossi = creati.get(0);
         List<Utente> arbitri = utenteRepository.findByRuolo(Ruolo.ARBITRO);
 
         // Calendario Serie D: andata e ritorno dal 26/09/2026, sabato ore 20:30.
@@ -174,7 +179,7 @@ public class DataSeeder implements CommandLineRunner {
             {"Volley Tricolore", "Volley Tricolore Reggio Emilia", "Reggio Emilia", "RE", "volleytricolore.it"},
             {"Pallavolo Parma", "Pallavolo Parma", "Parma", "PR", "pallavoloparma.it"},
             {"Imola Volley", "Imola Volley", "Imola", "BO", "imolavolley.it"}};
-    private static final String[] DIRIGENTI = {"Marco Bianchi", "Elena Gallo", "Paolo Conti", "Davide Ricci",
+    private static final String[] DIRIGENTI = {"Alberto Bova", "Elena Gallo", "Paolo Conti", "Davide Ricci",
             "Anna Marchetti", "Roberto Zanni", "Silvia Montanari", "Giorgio Bertoni", "Laura Benassi", "Fabio Guidi",
             "Carlo Malaguti", "Monica Pancaldi", "Enrico Golinelli", "Valeria Tosi", "Massimo Casadei",
             "Paola Ferrari", "Stefano Cavazza", "Claudia Rambaldi"};
@@ -187,16 +192,45 @@ public class DataSeeder implements CommandLineRunner {
         String[] dirigente = DIRIGENTI[n].split(" ");
         utente("dirigente@" + dati[4], dirigente[0], dirigente[1], Ruolo.DIRIGENTE, societa, dati[3]);
         Squadra squadra = squadra(dati[1], societa, campionato);
+        List<String> nomi = new ArrayList<>(List.of(NomiDemo.NOMI));
+        Collections.shuffle(nomi, randomNomi);
+        nomiLiberiPerSquadra.put(squadra.getId(), new ArrayDeque<>(nomi));
+        staffPerSquadra.put(squadra.getId(), new String[]{persona(squadra), persona(squadra)});
         rose.put(squadra.getId(), rosa(squadra, 14));
         return squadra;
     }
 
-    private static final String[] NOMI = {"Simone", "Lorenzo", "Matteo", "Alessandro", "Francesco", "Andrea", "Riccardo",
-            "Tommaso", "Gabriele", "Davide", "Federico", "Nicola", "Giacomo", "Pietro", "Filippo", "Edoardo", "Luca",
-            "Michele", "Samuele", "Jacopo", "Leonardo", "Mattia", "Daniele", "Emanuele"};
-    private static final String[] COGNOMI = {"Neri", "Russo", "Ferrari", "Esposito", "Romano", "Colombo", "Bruno",
-            "Gallo", "Costa", "Fontana", "Rinaldi", "Caruso", "Lombardi", "Moretti", "Barbieri", "Giordano", "Mancini",
-            "Rizzo", "Leone", "Longo", "Gentile", "Martini", "Vitale", "Serra", "Coppola", "De Luca", "Pellegrini", "Testa"};
+    /** Arbitri: email, nome, cognome, sigla dell'affiliazione (MO = societa' modenese), provincia. */
+    private static final String[][] ARBITRI = {
+            {"arbitro@fipav.it", "Luca", "Rossi", "", "RE"},
+            {"arbitro.lodi@fipav.it", "Chiara", "Lodi", "", "PC"},
+            {"arbitro.verdi@fipav.it", "Matteo", "Verdi", "", "FC"},
+            {"arbitro.mazza@fipav.it", "Federica", "Mazza", "", "FE"},
+            {"arbitro.serra@fipav.it", "Stefano", "Serra", "MO", "MO"},
+            {"arbitro.bassi@fipav.it", "Elisa", "Bassi", "", "PR"},
+            {"arbitro.gori@fipav.it", "Andrea", "Gori", "", "RN"},
+            {"arbitro.fabbri@fipav.it", "Sara", "Fabbri", "", "BO"}};
+
+    /** Mescola i cognomi escludendo quelli gia' usati da giudice, dirigenti, arbitri e dal giocatore demo. */
+    private void preparaCognomi() {
+        Set<String> riservati = new HashSet<>(List.of("Manfredi", "Gardellini"));
+        for (String d : DIRIGENTI) riservati.add(d.split(" ")[1]);
+        for (String[] a : ARBITRI) riservati.add(a[2]);
+        List<String> cognomi = new ArrayList<>(List.of(NomiDemo.COGNOMI));
+        cognomi.removeAll(riservati);
+        Collections.shuffle(cognomi, randomNomi);
+        cognomiLiberi.addAll(cognomi);
+    }
+
+    /** Nome non ancora usato nella squadra e cognome non ancora usato nel database. */
+    private String[] nuovoNomeCognome(Squadra s) {
+        return new String[]{nomiLiberiPerSquadra.get(s.getId()).pop(), cognomiLiberi.pop()};
+    }
+
+    private String persona(Squadra s) {
+        return String.join(" ", nuovoNomeCognome(s));
+    }
+
     /** Composizione tipo di una rosa (le prime 14 posizioni includono esattamente 2 liberi). */
     private static final RuoloCampo[] RUOLI = {
             RuoloCampo.PALLEGGIATORE, RuoloCampo.SCHIACCIATORE, RuoloCampo.CENTRALE, RuoloCampo.OPPOSTO,
@@ -217,8 +251,9 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private Tesserato tesserato(Squadra s, RuoloCampo ruolo, int maglia) {
+        String[] nomeCognome = nuovoNomeCognome(s);
         return tesseratoRepository.save(Tesserato.builder()
-                .nome(NOMI[random.nextInt(NOMI.length)]).cognome(COGNOMI[random.nextInt(COGNOMI.length)])
+                .nome(nomeCognome[0]).cognome(nomeCognome[1])
                 .ruoloCampo(ruolo).numeroMaglia(maglia).squadra(s).build());
     }
 
@@ -253,8 +288,8 @@ public class DataSeeder implements CommandLineRunner {
     private void lista(Partita p, Squadra s, List<Tesserato> rosa) {
         listaGaraRepository.save(ListaGara.builder().partita(p).squadra(s)
                 .atleti(new LinkedHashSet<>(rosa.subList(0, 14)))
-                .allenatore("All. " + COGNOMI[random.nextInt(COGNOMI.length)])
-                .dirigenteAccompagnatore("Dir. " + COGNOMI[random.nextInt(COGNOMI.length)])
+                .allenatore(staffPerSquadra.get(s.getId())[0])
+                .dirigenteAccompagnatore(staffPerSquadra.get(s.getId())[1])
                 .inviataAt(p.getDataOra().minusDays(1)).build());
     }
 
